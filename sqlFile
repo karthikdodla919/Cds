@@ -1,0 +1,1312 @@
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'rnus8_us.party_cust_root_current',N'Curated',N'[{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'rnus8_us.party_cust_rel_current',N'Curated',N'[{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"contact_information"},"function":"is_not_null"},"criticality":"warn","name":"contact_information_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'rnus8_us.party_cust_email_current',N'Curated',N'[{"check":{"arguments":{"column":"contact_information"},"function":"is_not_null"},"criticality":"warn","name":"contact_information_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'rnus8_us.party_address_current',N'Curated',N'[{"check":{"arguments":{"column":"party_id"},"function":"is_not_null"},"criticality":"warn","name":"party_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N' ' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"expensed_by_employee_number"},"function":"is_not_null"},"criticality":"warn","name":"expensed_by_employee_number_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"Submitted-at","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"Submitted-at_is_valid_timestamp"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'pttpc_us.expensereport_header_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'pttpc_us.expensereport_header_current',N'Curated',N'[
+    {"check":{"arguments":{"column":"expensed_by_employee_number"},"function":"is_not_null"},"criticality":"warn","name":"expensed_by_employee_number_is_null"},
+    {"check":{"arguments":{"column":"Submitted-at","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"Submitted-at_is_valid_timestamp"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"accountnumber"},"function":"is_not_null"},"criticality":"warn","name":"accountnumber_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'enuspsgoop_us.productsold_current',N'Curated',N'[{"check":{"arguments":{"column":"accountnumber"},"function":"is_not_null"},"criticality":"warn","name":"accountnumber_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"cardholder_account_number"},"function":"is_not_null"},"criticality":"warn","name":"cardholder_account_number_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'cpus2_us.primary_account_record_full_b01_current',N'Curated',N'[{"check":{"arguments":{"column":"cardholder_account_number"},"function":"is_not_null"},"criticality":"warn","name":"cardholder_account_number_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_num"},"function":"is_not_null"},"criticality":"warn","name":"acct_num_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'ovn_us.wala_ovn_activity_log',N'Curated',N'[{"check":{"arguments":{"column":"acct_num"},"function":"is_not_null"},"criticality":"warn","name":"acct_num_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_number"},"function":"is_not_null"},"criticality":"warn","name":"acct_number_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"USER_ID"},"function":"is_not_null"},"criticality":"warn","name":"USER_ID_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"LAST_UPDATED_TIME","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"LAST_UPDATED_TIME_is_valid_timestamp"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"SYSTEM_DATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"SYSTEM_DATE_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"SYSTEM_TIME"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_TIME_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'odw_us.transactions_nonmonetary',N'Curated',N'[
+    {"check":{"arguments":{"column":"acct_number"},"function":"is_not_null"},"criticality":"warn","name":"acct_number_is_null"},
+    {"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"},
+    {"check":{"arguments":{"column":"USER_ID"},"function":"is_not_null"},"criticality":"warn","name":"USER_ID_is_null"},
+    {"check":{"arguments":{"column":"LAST_UPDATED_TIME","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"LAST_UPDATED_TIME_is_valid_timestamp"},
+    {"check":{"arguments":{"column":"SYSTEM_DATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"SYSTEM_DATE_is_valid_date"},
+    {"check":{"arguments":{"column":"SYSTEM_TIME"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_TIME_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_number"},"function":"is_not_null"},"criticality":"warn","name":"acct_number_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"LAST_UPDATED_TIME","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"LAST_UPDATED_TIME_is_valid_timestamp"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"SYSTEM_TIME"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_TIME_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"APPLICATION_ID"},"function":"is_not_null"},"criticality":"warn","name":"APPLICATION_ID_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"user_id"},"function":"is_not_null"},"criticality":"warn","name":"user_id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"SYSTEM_DATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"SYSTEM_DATE_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"SYSTEM_DATE"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_DATE_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'odw_us.transactions_monetary',N'Curated',N'[
+    {"check":{"arguments":{"column":"acct_number"},"function":"is_not_null"},"criticality":"warn","name":"acct_number_is_null"},
+    {"check":{"arguments":{"column":"LAST_UPDATED_TIME","timestamp_format":"yyyy-MM-dd HH:mm:ss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"LAST_UPDATED_TIME_is_valid_timestamp"},
+    {"check":{"arguments":{"column":"SYSTEM_TIME"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_TIME_is_null"},
+    {"check":{"arguments":{"column":"APPLICATION_ID"},"function":"is_not_null"},"criticality":"warn","name":"APPLICATION_ID_is_null"},
+    {"check":{"arguments":{"column":"user_id"},"function":"is_not_null"},"criticality":"warn","name":"user_id_is_null"},
+    {"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"},
+    {"check":{"arguments":{"column":"SYSTEM_DATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"SYSTEM_DATE_is_valid_date"},
+    {"check":{"arguments":{"column":"SYSTEM_DATE"},"function":"is_not_null"},"criticality":"warn","name":"SYSTEM_DATE_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"BK"},"function":"is_not_null"},"criticality":"warn","name":"BK_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"BR"},"function":"is_not_null"},"criticality":"warn","name":"BR_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"LN"},"function":"is_not_null"},"criticality":"warn","name":"LN_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"CUS"},"function":"is_not_null"},"criticality":"warn","name":"CUS_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'shw_us.loan_rec_current',N'Curated',N'[
+    {"check":{"arguments":{"column":"BK"},"function":"is_not_null"},"criticality":"warn","name":"BK_is_null"},
+    {"check":{"arguments":{"column":"BR"},"function":"is_not_null"},"criticality":"warn","name":"BR_is_null"},
+    {"check":{"arguments":{"column":"LN"},"function":"is_not_null"},"criticality":"warn","name":"LN_is_null"},
+    {"check":{"arguments":{"column":"CUS"},"function":"is_not_null"},"criticality":"warn","name":"CUS_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_date_of_last_mon_nonmon_activities","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_date_of_last_mon_nonmon_activities_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_balance"},"function":"is_not_null"},"criticality":"warn","name":"acct_balance_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_closed_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_closed_date_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_dormant_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_dormant_date_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_fraud_status_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_fraud_status_date_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"acct_opening_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_opening_date_is_valid_date"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'imsb_us.im_account_current',N'Curated',N'[
+    {"check":{"arguments":{"column":"acct_date_of_last_mon_nonmon_activities","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_date_of_last_mon_nonmon_activities_is_valid_date"},
+    {"check":{"arguments":{"column":"acct_balance"},"function":"is_not_null"},"criticality":"warn","name":"acct_balance_is_null"},
+    {"check":{"arguments":{"column":"acct_id"},"function":"is_not_null"},"criticality":"warn","name":"acct_id_is_null"},
+    {"check":{"arguments":{"column":"acct_closed_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_closed_date_is_valid_date"},
+    {"check":{"arguments":{"column":"acct_dormant_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_dormant_date_is_valid_date"},
+    {"check":{"arguments":{"column":"acct_fraud_status_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_fraud_status_date_is_valid_date"},
+    {"check":{"arguments":{"column":"acct_opening_date","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"acct_opening_date_is_valid_date"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"id"},"function":"is_not_null"},"criticality":"warn","name":"id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"expiry_date","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"expiry_date_is_valid_timestamp"}')),
+       [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.identification_current',N'Curated',N'[
+    {"check":{"arguments":{"column":"id"},"function":"is_not_null"},"criticality":"warn","name":"id_is_null"},
+    {"check":{"arguments":{"column":"expiry_date","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"expiry_date_is_valid_timestamp"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"work_phone"},"function":"is_not_null"},"criticality":"warn","name":"work_phone_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'hrm_us.employee_workphone_current',N'Curated',N'[{"check":{"arguments":{"column":"work_phone"},"function":"is_not_null"},"criticality":"warn","name":"work_phone_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"employee_id"},"function":"is_not_null"},"criticality":"warn","name":"employee_id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'hrm_us.employee_personal_current',N'Curated',N'[{"check":{"arguments":{"column":"employee_id"},"function":"is_not_null"},"criticality":"warn","name":"employee_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"home_phone"},"function":"is_not_null"},"criticality":"warn","name":"home_phone_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'hrm_us.employee_homephone_current',N'Curated',N'[{"check":{"arguments":{"column":"home_phone"},"function":"is_not_null"},"criticality":"warn","name":"home_phone_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"event_type_cd"},"function":"is_not_null"},"criticality":"warn","name":"event_type_cd_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"event_tmstmp","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"event_tmstmp_is_valid_timestamp"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"id"},"function":"is_not_null"},"criticality":"warn","name":"id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.event_current',N'Curated',N'[
+    {"check":{"arguments":{"column":"event_type_cd"},"function":"is_not_null"},"criticality":"warn","name":"event_type_cd_is_null"},
+    {"check":{"arguments":{"column":"event_tmstmp","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"event_tmstmp_is_valid_timestamp"},
+    {"check":{"arguments":{"column":"id"},"function":"is_not_null"},"criticality":"warn","name":"id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"termination_dttm","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"termination_dttm_is_valid_timestamp"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'hrm_us.employee_employment_current',N'Curated',N'[{"check":{"arguments":{"column":"termination_dttm","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"termination_dttm_is_valid_timestamp"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"TDACCOUNTNUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TDACCOUNTNUMBER_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'crl.us_debit_claim_check_accounts_info_curated',N'Curated',N'[{"check":{"arguments":{"column":"TDACCOUNTNUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TDACCOUNTNUMBER_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"TDACCOUNTNUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TDACCOUNTNUMBER_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"TD_ACCOUNT_NUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TD_ACCOUNT_NUMBER_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'crl.us_debit_claim_accounts_info_curated',N'Curated',N'[{"check":{"arguments":{"column":"TDACCOUNTNUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TDACCOUNTNUMBER_is_null"},
+    {"check":{"arguments":{"column":"TD_ACCOUNT_NUMBER"},"function":"is_not_null"},"criticality":"warn","name":"TD_ACCOUNT_NUMBER_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"CLAIMINITIATIONDATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"CLAIMINITIATIONDATE_is_valid_date"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"ORIGINALCLAIMINITIATIONDATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"ORIGINALCLAIMINITIATIONDATE_is_valid_date"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'crl.us_debit_claim_curated',N'Curated',N'[
+    {"check":{"arguments":{"column":"CLAIMINITIATIONDATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"CLAIMINITIATIONDATE_is_valid_date"},
+    {"check":{"arguments":{"column":"ORIGINALCLAIMINITIATIONDATE","date_format":"dd-MM-yyyy"},"function":"is_valid_date"},"criticality":"warn","name":"ORIGINALCLAIMINITIATIONDATE_is_valid_date"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"ORIGINAL_CLAIM_INITIATION_DATE"},"function":"is_not_null"},"criticality":"warn","name":"ORIGINAL_CLAIM_INITIATION_DATE_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'crl.us_credit_claim_accounts_info_curated',N'Curated',N'[{"check":{"arguments":{"column":"ORIGINAL_CLAIM_INITIATION_DATE"},"function":"is_not_null"},"criticality":"warn","name":"ORIGINAL_CLAIM_INITIATION_DATE_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"sif_cus"},"function":"is_not_null"},"criticality":"warn","name":"sif_cus_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'shw_us.clsif_cus_record_current',N'Curated',N'[{"check":{"arguments":{"column":"sif_cus"},"function":"is_not_null"},"criticality":"warn","name":"sif_cus_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"ACCOUNT_NUMBER"},"function":"is_not_null"},"criticality":"warn","name":"ACCOUNT_NUMBER_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'fpint_us.cci_dw_checkdata_history',N'Curated',N'[{"check":{"arguments":{"column":"ACCOUNT_NUMBER"},"function":"is_not_null"},"criticality":"warn","name":"ACCOUNT_NUMBER_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"rm_id"},"function":"is_not_null"},"criticality":"warn","name":"rm_id_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.business_current',N'Curated',N'[{"check":{"arguments":{"column":"rm_id"},"function":"is_not_null"},"criticality":"warn","name":"rm_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"application_last_update","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"application_last_update_is_valid_timestamp"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"application_start_date","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"application_start_date_is_valid_timestamp"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.application_current',N'Curated',N'[{"check":{"arguments":{"column":"application_last_update","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"application_last_update_is_valid_timestamp"},
+    {"check":{"arguments":{"column":"application_start_date","timestamp_format":"YYYYMMDDHHmmss"},"function":"is_valid_timestamp"},"criticality":"warn","name":"application_start_date_is_valid_timestamp"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"ea_party_id"},"function":"is_not_null"},"criticality":"warn","name":"ea_party_id_is_null"}')), 
+        'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"preferred_phone_type"},"function":"is_not_null"},"criticality":"warn","name":"preferred_phone_type_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.applicant_current',N'Curated',N'[{"check":{"arguments":{"column":"ea_party_id"},"function":"is_not_null"},"criticality":"warn","name":"ea_party_id_is_null"},
+    {"check":{"arguments":{"column":"preferred_phone_type"},"function":"is_not_null"},"criticality":"warn","name":"preferred_phone_type_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"ID"},"function":"is_not_null"},"criticality":"warn","name":"ID_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.agent_details_current',N'Curated',N'[{"check":{"arguments":{"column":"ID"},"function":"is_not_null"},"criticality":"warn","name":"ID_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"application_id"},"function":"is_not_null"},"criticality":"warn","name":"application_id_is_null"}')),
+       [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.agent_actions_current',N'Curated',N'[{"check":{"arguments":{"column":"application_id"},"function":"is_not_null"},"criticality":"warn","name":"application_id_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+IF EXISTS (SELECT 1 FROM [operational].[DQConfig]
+           WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated')
+BEGIN
+    UPDATE [operational].[DQConfig]
+    SET [Zone] = N'Curated',
+        [Rules] = JSON_MODIFY(COALESCE(NULLIF([Rules], N''), N'[]'), 'append $', JSON_QUERY(N'{"check":{"arguments":{"column":"account_num"},"function":"is_not_null"},"criticality":"warn","name":"account_num_is_null"}')),
+        [IsActiveFlag] = 1, [LastUpdatedTimestamp] = GETDATE(), [UpdatedBy] = NULL, [CronSchedule] = NULL, [StreamingTimestampField] = NULL, [Alert_Emails] = NULL, [sourceFile] = NULL
+    WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+    INSERT INTO [operational].[DQConfig]
+        ([TableName],[Zone],[Rules],[IsActiveFlag],[LastUpdatedTimestamp],
+         [UpdatedBy],[CronSchedule],[StreamingTimestampField],[Alert_Emails],[sourceFile])
+    VALUES
+        (N'eouae_us.account_current',N'Curated',N'[{"check":{"arguments":{"column":"account_num"},"function":"is_not_null"},"criticality":"warn","name":"account_num_is_null"}]',
+         1,GETDATE(),NULL,NULL,NULL,NULL,NULL);
+END
+GO
+
+
+/*
+-- Removes only the rules introduced by the source script.
+-- If no rules remain for a table, the DQConfig row is deleted.
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'party_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'rnus8_us.party_cust_root_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'party_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'rnus8_us.party_cust_rel_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'contact_information' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'rnus8_us.party_cust_email_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'party_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'rnus8_us.party_address_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'pttpc_us.expensereport_header_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'pttpc_us.expensereport_header_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'expensed_by_employee_number' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'Submitted-at' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'pttpc_us.expensereport_header_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'pttpc_us.expensereport_header_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'accountnumber' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'enuspsgoop_us.productsold_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'cardholder_account_number' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'cpus2_us.primary_account_record_full_b01_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_num' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'ovn_us.wala_ovn_activity_log' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_number' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'USER_ID' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'LAST_UPDATED_TIME' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'SYSTEM_DATE' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'SYSTEM_TIME' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'odw_us.transactions_nonmonetary' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_number' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'LAST_UPDATED_TIME' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'SYSTEM_TIME' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'APPLICATION_ID' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'user_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'SYSTEM_DATE' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'SYSTEM_DATE' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'odw_us.transactions_monetary' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'BK' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'BR' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'LN' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'CUS' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'shw_us.loan_rec_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_date_of_last_mon_nonmon_activities' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_balance' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_closed_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_dormant_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_fraud_status_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'acct_opening_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'imsb_us.im_account_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'expiry_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.identification_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'work_phone' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'hrm_us.employee_workphone_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'employee_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'hrm_us.employee_personal_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'home_phone' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'hrm_us.employee_homephone_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'event_type_cd' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'event_tmstmp' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.event_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'termination_dttm' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'hrm_us.employee_employment_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'TDACCOUNTNUMBER' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'crl.us_debit_claim_check_accounts_info_curated' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'TDACCOUNTNUMBER' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'TD_ACCOUNT_NUMBER' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'crl.us_debit_claim_accounts_info_curated' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'CLAIMINITIATIONDATE' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'ORIGINALCLAIMINITIATIONDATE' AND JSON_VALUE([value], '$.check.function') = N'is_valid_date')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'crl.us_debit_claim_curated' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'ORIGINAL_CLAIM_INITIATION_DATE' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'crl.us_credit_claim_accounts_info_curated' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'sif_cus' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'shw_us.clsif_cus_record_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'ACCOUNT_NUMBER' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'fpint_us.cci_dw_checkdata_history' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'rm_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.business_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'application_last_update' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'application_start_date' AND JSON_VALUE([value], '$.check.function') = N'is_valid_timestamp')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.application_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'ea_party_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null') OR
+            (JSON_VALUE([value], '$.check.arguments.column') = N'preferred_phone_type' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.applicant_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'ID' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.agent_details_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'application_id' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.agent_actions_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+IF EXISTS ( SELECT 1 FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated' )
+BEGIN
+DECLARE @Rules NVARCHAR(MAX);
+SELECT @Rules = ISNULL([Rules], N'[]') FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated';
+SELECT @Rules = COALESCE( N'[' + (
+SELECT STRING_AGG(CAST([value] AS NVARCHAR(MAX)), N',') WITHIN GROUP (ORDER BY TRY_CONVERT(INT, [key]))
+FROM OPENJSON(@Rules)
+WHERE NOT (
+            (JSON_VALUE([value], '$.check.arguments.column') = N'account_num' AND JSON_VALUE([value], '$.check.function') = N'is_not_null')
+) ) + N']', N'[]' );
+IF @Rules = N'[]'
+BEGIN
+DELETE FROM [operational].[DQConfig] WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated';
+END
+ELSE
+BEGIN
+UPDATE [operational].[DQConfig] SET [Rules] = @Rules, [LastUpdatedTimestamp] = GETDATE() WHERE [TableName] = N'eouae_us.account_current' AND [Zone] = N'Curated'; END;
+END;
+GO
+
+*/
