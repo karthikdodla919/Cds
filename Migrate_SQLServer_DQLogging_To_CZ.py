@@ -1,39 +1,34 @@
+
 # Databricks notebook source
 # ============================================================
 # Notebook Name : Migrate_SQLServer_DQLogging_To_CZ
-# Purpose       : Perform a one-time full load of DQLogging
-#                 from SQL Server into the CZ Delta table.
+# Purpose       : One-time full load of DQLogging
+#                 from SQL Server into CZ Delta.
 #
 # Source        : SQL Server - dq_audit.DQLogging
-# Target        : CZ Delta - main.curated.DQLogging
+# Target        : CZ Delta - dq_audit.DQLogging
 # Load Type     : Full Load (OneTime)
 # ============================================================
 
 
 # COMMAND ----------
-# Load existing environment configuration.
-# Provides environment-specific settings and variables.
+# Load existing utility notebooks.
 
 # MAGIC %run "../utils/environment"
 
 
 # COMMAND ----------
-# Load SQL Server connection utility.
-# Provides get_jdbcUrl() for JDBC connectivity.
-
 # MAGIC %run "../utils/sql/sql_utility"
 
 
 # COMMAND ----------
-# Load existing ADLS authentication utility.
-# Provides connect_storage() for CZ storage authentication.
-
 # MAGIC %run "../utils/io_util"
 
 
 # COMMAND ----------
 # Import required libraries.
 
+import os
 from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
@@ -41,25 +36,47 @@ spark = SparkSession.builder.getOrCreate()
 
 # COMMAND ----------
 # ============================================================
-# STEP 1: DEFINE SOURCE AND TARGET TABLES
+# STEP 1: DEFINE ENVIRONMENT AND TABLES
 # ============================================================
 
-# SQL Server source table (schema.table).
-SOURCE_TABLE = "dq_audit.DQLogging"
+dbutils.widgets.text("ENVIRONMENT_NAME", "")
 
-# CZ target Delta table (catalog.schema.table).
+ENVIRONMENT_NAME = (
+    dbutils.widgets.get("ENVIRONMENT_NAME").strip().upper()
+)
+
+if not ENVIRONMENT_NAME:
+    raise Exception("ENVIRONMENT_NAME parameter is required.")
+
+os.environ["ENVIRONMENT_NAME"] = ENVIRONMENT_NAME
+
+SOURCE_TABLE = "dq_audit.DQLogging"
 TARGET_TABLE = "dq_audit.DQLogging"
+
+print(f"Environment  : {ENVIRONMENT_NAME}")
+print(f"Source Table : {SOURCE_TABLE}")
+print(f"Target Table : {TARGET_TABLE}")
 
 
 # COMMAND ----------
 # ============================================================
-# STEP 2: AUTHENTICATE WITH CZ STORAGE
+# STEP 2: AUTHENTICATE WITH CURATED STORAGE
 # ============================================================
 
-# Authenticate using the existing CZ service principal.
-# This ensures access to the CZ ADLS storage account.
+def connect_curated_storage():
+    """
+    Authenticate with Curated ADLS storage.
+    """
 
-connect_storage("Curated")
+    sp_name = f"SP_ADB_DAFCZ_{ENVIRONMENT_NAME}"
+    storage_account_name = (
+        f"dsapdafcz{ENVIRONMENT_NAME.lower()}adls1"
+    )
+
+    authenticate_storage(storage_account_name, sp_name)
+
+
+connect_curated_storage()
 
 print("CZ storage authentication successful.")
 
@@ -68,9 +85,6 @@ print("CZ storage authentication successful.")
 # ============================================================
 # STEP 3: ESTABLISH SQL SERVER CONNECTION
 # ============================================================
-
-# Retrieve the SQL Server JDBC connection URL
-# from the existing SQL utility.
 
 jdbc_url = get_jdbcUrl()
 
@@ -81,14 +95,6 @@ print("SQL Server JDBC connection configured.")
 # ============================================================
 # STEP 4: READ COMPLETE DATA FROM SQL SERVER
 # ============================================================
-
-# Read the entire source table using JDBC.
-#
-# fetchsize:
-# Controls the number of rows fetched per JDBC round trip.
-# This is a fetch-size setting, not a Spark partition count.
-#
-# No filters are applied because this is a full load.
 
 source_df = (
     spark.read
@@ -105,16 +111,9 @@ source_df = (
 # STEP 5: VALIDATE SOURCE DATA
 # ============================================================
 
-# Count source records before starting the migration.
-# This count will be used to validate the target after loading.
-
 source_count = source_df.count()
 
 print(f"SQL Server source record count: {source_count}")
-
-# Stop the migration if the source table is empty.
-# This prevents accidental replacement of the target
-# with an empty dataset.
 
 if source_count == 0:
     raise Exception(
@@ -126,16 +125,6 @@ if source_count == 0:
 # ============================================================
 # STEP 6: PERFORM FULL LOAD INTO CZ DELTA TABLE
 # ============================================================
-
-# Overwrite:
-# Replaces existing target data with the complete source data.
-#
-# overwriteSchema:
-# Allows the target Delta schema to be updated to match
-# the source DataFrame schema.
-#
-# saveAsTable:
-# Saves the data as a registered CZ Delta table.
 
 (
     source_df.write
@@ -153,15 +142,12 @@ print(f"Full load completed for {TARGET_TABLE}.")
 # STEP 7: VALIDATE TARGET DATA
 # ============================================================
 
-# Read the target Delta table and calculate its record count.
-
-target_df = spark.table(TARGET_TABLE)
-
-target_count = target_df.count()
+target_count = spark.table(TARGET_TABLE).count()
 
 print("----------------------------------------")
 print("DQLogging Migration Validation")
 print("----------------------------------------")
+print(f"Environment   : {ENVIRONMENT_NAME}")
 print(f"Source Table  : {SOURCE_TABLE}")
 print(f"Target Table  : {TARGET_TABLE}")
 print(f"Source Records: {source_count}")
@@ -174,11 +160,7 @@ print("----------------------------------------")
 # STEP 8: FINAL MIGRATION STATUS
 # ============================================================
 
-# Compare source and target record counts.
-# Fail the notebook if the counts do not match.
-
 if source_count != target_count:
-
     raise Exception(
         f"Migration validation failed. "
         f"Source Count: {source_count}, "
@@ -187,5 +169,6 @@ if source_count != target_count:
 
 print(
     f"SUCCESS: Full load of {SOURCE_TABLE} "
-    f"into {TARGET_TABLE} completed successfully."
+    f"into {TARGET_TABLE} completed successfully "
+    f"for environment {ENVIRONMENT_NAME}."
 )
